@@ -1,3 +1,6 @@
 [submodule "LayerShell"]
 	path = LayerShell
 	url = https://gist.github.com/455c91bc637fe890731110953008a0ff.git
+[submodule "Config"]
+	path = Config
+	url = https://gist.github.com/d372a1f689b0499d43e8df7eeab2b13a.git
