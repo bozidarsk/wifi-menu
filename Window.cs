@@ -29,7 +29,7 @@ public static class Window
 		LayerShell.SetMargin(window, LayerShell.Edge.Right, Config.WindowMarginRight);
 		LayerShell.SetMargin(window, LayerShell.Edge.Bottom, Config.WindowMarginBottom);
 		LayerShell.SetMargin(window, LayerShell.Edge.Left, Config.WindowMarginLeft);
-		for (int i = 0; Config.WindowAnchor != null && i < Config.WindowAnchor.Length; i++) { LayerShell.SetAnchor(window, Enum.Parse<LayerShell.Edge>(Config.WindowAnchor[i]), true); }
+		for (int i = 0; Config.WindowAnchor != null && i < Config.WindowAnchor.Length; i++) { LayerShell.SetAnchor(window, Config.WindowAnchor[i], true); }
 
 		if (networks != null) { for (int i = 0; i < networks.Length; i++) { box.PackStart(new Entry(networks[i]).Widget, false, false, 0); } }
 		else 

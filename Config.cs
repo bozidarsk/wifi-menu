@@ -39,6 +39,8 @@ public static partial class Config
 		File.WriteAllText(Config.DefaultConfigDir + "/style.css", Config.DefaultCss);
 	}
 
+	private static object ParseContent(string content, Type type) => type.IsEnum ? Enum.Parse(type, content) : Convert.ChangeType(content, type);
+
 	public static void Initialize(string pathConfigDir) 
 	{
 		if (pathConfigDir == null && !Directory.Exists(Config.DefaultConfigDir)) { Config.CreateDefaults(); }
@@ -76,9 +78,9 @@ public static partial class Config
 					Type itemType = Type.GetType(property.PropertyType.ToString().Replace("[]", ""));
 					Array array = Array.CreateInstance(itemType, items.Length);
 
-					for (int t = 0; t < array.Length; t++) { array.SetValue(Convert.ChangeType(items[t], itemType), t); }
+					for (int t = 0; t < array.Length; t++) { array.SetValue(ParseContent(items[t], itemType), t); }
 					property.SetValue(null, array);
-				} else { property.SetValue(null, Convert.ChangeType(content, property.PropertyType)); }
+				} else { property.SetValue(null, ParseContent(content, property.PropertyType)); }
 			}
 			catch 
 			{

@@ -8,7 +8,7 @@ public static partial class Config
 	public static int WindowMarginRight { private set; get; }
 	public static int WindowMarginBottom { private set; get; }
 	public static int WindowMarginLeft { private set; get; }
-	public static string[] WindowAnchor { private set; get; }
+	public static Gtk.LayerShell.Edge[] WindowAnchor { private set; get; }
 	public static int EntryHeight { private set; get; }
 	public static int EntrySpacing { private set; get; }
 	public static string[] StrengthOpen { private set; get; }
