@@ -124,30 +124,29 @@ public static class Program
 
 	private static int Main(string[] args) 
 	{
-		int index = Array.IndexOf(args, "--config-dir");
-		if (index == args.Length - 1 && args.Length != 0) { Console.WriteLine("Invalid options."); return 1; }
-		Config.Initialize(index >= 0 ? args[index + 1] : null);
+		if (args.Length == 0 || (args.Length == 1 && (args[0] == "-h" || args[0] == "--help" || args[0] == "help")))
+		{
+			Console.WriteLine("Usage:\n\twifi-menu <command> [arguments...] [options]");
+			Console.WriteLine("\nCommands:");
+			Console.WriteLine("\twindow                     Opens a gtk3 gui window.");
+			Console.WriteLine("\tconnect <ssid> <password>  Connects to a network with a password. (if the network is open pass \"\" as password)");
+			Console.WriteLine("\tdisconnect                 Disconnects from any network.");
+			Console.WriteLine("\tforget <ssid>              Forgets a network.");
+			Console.WriteLine("\tdefaults                   Creates default configuration and style files.");
+			Console.WriteLine("\nOptions:");
+			Console.WriteLine("\t--config-dir <dir>         Directory which contains configuration and style files.");
+			return 0;
+		}
+
+		Config.Initialize(ref args);
 
 		Func<int> useEthernet = () => { Console.WriteLine("You are using a wired connection."); return 1; };
 		Func<int> invalidArguments = () => { Console.WriteLine("Invalid arguments."); return 1; };
 		Func<int> wrongPassword = () => { Console.WriteLine("Wrong password."); return 2; };
 
-		if (args.Length == 0) { args = new string[] { "help" }; }
+		if (args.Length == 0) { Console.WriteLine("No commands provided."); return 1; }
 		switch (args[0]) 
 		{
-			case "-h":
-			case "--help":
-			case "help":
-				Console.WriteLine("Usage:\n\twifi-menu <command> [arguments...] [options]");
-				Console.WriteLine("\nCommands:");
-				Console.WriteLine("\twindow                     Opens a gtk3 gui window.");
-				Console.WriteLine("\tconnect <ssid> <password>  Connects to a network with a password. (if the network is open pass \"\" as password)");
-				Console.WriteLine("\tdisconnect                 Disconnects from any network.");
-				Console.WriteLine("\tforget <ssid>              Forgets a network.");
-				Console.WriteLine("\tdefaults                   Creates default configuration and style files.");
-				Console.WriteLine("\nOptions:");
-				Console.WriteLine("\t--config-dir <dir>         Directory which contains configuration and style files.");
-				break;
 			case "window":
 				Window.Run(!UsingEthernet() ? GetAllNetworks() : null);
 				break;
