@@ -16,7 +16,9 @@ public static partial class Config
 	public static int MaxStrength { private set; get; } = 4;
 	public static int StrengthSpacing { private set; get; } = 43;
 	public static string ConnectedString { private set; get; } = ">";
+	/* output of AllNetworksCommand must be 'SSID\x1dSECURITY\x1dSTRENGTH\x1dCONNECTEDSTRING\n...' (if CONNECTEDSTRING == Config.ConnectedString you are currently connected to this network, otherwise CONNECTEDSTRING == '') */
 	public static string AllNetworksCommand { private set; get; } = @"iwctl station wlan0 get-networks | grep \* | tr -d '\33' | sed -E 's/(\[0m)?\s*(\[1;90m(>) \[0m)?\s*(.+)/\4 \3/' | rev | sed -E 's/(>)?\s+(m0\[\*+m09;1\[)?(\*+)\s+([^ ]+)\s+(.+)/\1\x1d\3\x1d\4\x1d\5/' | rev";
+	/* output of KnownNetworksCommand must be 'SSID\n...' */
 	public static string KnownNetworksCommand { private set; get; } = @"iwctl known-networks list | grep , | tr -d '\33' | sed -E 's/(\[0m)?\s*(.+)/\2/' | rev | sed -E 's/\s*MA?P? [0-9]+:[0-9]+\s+,[0-9]+ [a-zA-Z]+\s+[^ ]+\s+(.+)/\1/' | rev";
 	public static string ConnectSecureCommand { private set; get; } = @"iwctl --passphrase '%password%' station wlan0 connect '%ssid%'";
 	public static string ConnectOpenCommand { private set; get; } = @"iwctl station wlan0 connect '%ssid%'";
